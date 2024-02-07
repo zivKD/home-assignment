@@ -50,6 +50,10 @@ Implement the supplied design for a post item.
 - Display the date and time in a human-readable manner.
 - A post may or may not have an image, display the image if exists.
 - Display Edit and Delete actions only for the active user's posts.
+- Posts should look like this:
+
+![card-design](./card-design.png)
+![card-design-image](./card-design-image.png)
 
 4. **Create New Post**
 
