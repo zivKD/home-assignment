@@ -2,8 +2,10 @@
 export interface IPost {
     id: number;
     userId: number;
-    date: Date;
+    date: string;
     content: string;
-    imageUrl?: URL;
+    imageUrl?: string;
     likeCounter: number;
 }
+
+export type PartialPost = {id: number} & Partial<IPost>;

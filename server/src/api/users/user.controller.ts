@@ -8,30 +8,30 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/All')
+  @Get()
   @ApiOkResponse({type: [User]})
   getUsers(): Promise<User[]> {
     return this.userService.getUsers();
   }
 
-  @Get('/ById/:id')
+  @Get('/id/:id')
   @ApiOkResponse({type: User})
   getUserById(@Param('id') id: string): Promise<User> {
     return this.userService.getById(id);
   }
 
-  @Delete('/ById/:id')
+  @Delete('/id/:id')
   deleteUserById(@Param('id') id: string): Promise<void> {
     return this.userService.deleteById(id);
   }
 
-  @Post()
+  @Post('/add')
   @ApiOkResponse({type: User})
   add(@Body() body: User): Promise<void> {
     return this.userService.add(body);
   }
 
-  @Patch()
+  @Patch('/edit')
   @ApiOkResponse({type: User})
   edit(@Body() body: {user: User}): Promise<void> {
     return this.userService.edit(body.user);

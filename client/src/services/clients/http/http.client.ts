@@ -12,19 +12,19 @@ export class HttpClient implements IBaseClient {
         return this.http.get(this.path);
     }
 
-    getByID<T>(id: string): Promise<T> {
+    getByID<T>(id: number): Promise<T> {
         return this.http.get(`${this.path}/id/${id}`);
     }
 
-    add<T>(datum: { id: string; } & Partial<T>): Promise<void> {
+    add<T>(datum: { id: number; } & Partial<T>): Promise<void> {
         return this.http.post(`${this.path}/add`, {data: datum});
     }
 
-    deleteById(id: string): Promise<void> {
+    deleteById(id: number): Promise<void> {
         return this.http.delete(`${this.path}/id/${id}`);
     }
 
-    edit<T>(datum: { id: string; } & Partial<T>): Promise<void> {
+    edit<T>(datum: { id: number; } & Partial<T>): Promise<void> {
         return this.http.patch(`${this.path}/edit`, {data: datum});
     }
 }

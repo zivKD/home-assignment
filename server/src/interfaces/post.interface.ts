@@ -5,9 +5,9 @@ import { IsNumber, IsOptional } from 'class-validator';
 export interface IPost {
     id: number;
     userId: number;
-    date: Date;
+    date: string;
     content: string;
-    imageUrl?: URL;
+    imageUrl?: string;
     likeCounter: number;
 }
 
@@ -17,12 +17,12 @@ export class Post implements IPost {
     id: number;
     @ApiProperty({type: Number})
     userId: number;
-    @ApiProperty({type: Date})
-    date: Date;
+    @ApiProperty({type: String})
+    date: string;
     @ApiProperty()
     content: string;
     @ApiProperty({type: URL, required: false})
-    imageUrl?: URL;
+    imageUrl?: string;
     @Transform(({value}) => parseInt(value))
     @IsNumber()
     @IsOptional()

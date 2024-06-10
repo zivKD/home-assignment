@@ -4,7 +4,7 @@ import { IsNumber } from 'class-validator';
 export interface IUser {
     id: number;
     name: string;
-    avatar: URL;
+    avatar: string;
 }
 
 export class User implements IUser {
@@ -14,5 +14,5 @@ export class User implements IUser {
     @ApiProperty()
     name: string;
     @ApiProperty({type: URL})
-    avatar: URL;
+    avatar: string;
 }

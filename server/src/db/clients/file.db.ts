@@ -48,5 +48,6 @@ export class FileDB extends BaseDB {
 
     async edit<T>(collectionName: string, datum: { id: string; } & Partial<T>): Promise<void> {
         this.deleteById(collectionName, datum.id);
+        this.add(collectionName, datum);
     }
 }

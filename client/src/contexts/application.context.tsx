@@ -1,24 +1,58 @@
-import { IBaseClient } from "@services/clients/base.client";
-import { HttpClient } from "@services/clients/http/http.client";
-import { LikeService } from "@services/like.service";
-import { PostService } from "@services/post.service";
-import { UserService } from "@services/user.service";
-import { createContext, useMemo } from "react";
+import { ILike } from "@interfaces/like.interface";
+import { IPost, PartialPost } from "@interfaces/post.interface";
+import { IUser } from "@interfaces/user.interface";
+import { createContext, useContext } from "react";
+import { ServiceContext } from "./service.context";
+import { getRandomInt } from "@utils";
 
 export const ApplicationContext = createContext({
-    postService: {} as PostService, 
-    userService: {} as LikeService, 
-    likeService: {} as UserService, 
+    editPost: async (post: PartialPost): Promise<void>  => {},
+    createPost: async (post: IPost): Promise<void>  => {},
+    deletePost: async (id: number): Promise<void>  => {},
+    likePost: async (user: IUser, post: IPost): Promise<void> => {}
 });
 
-export const ApplicationContextProvider = ({children}: {children: React.ReactNode}) => {
-    const postService = useMemo(() => new PostService(new HttpClient('posts')), []);
-    const userService = useMemo(() => new UserService(new HttpClient('users')), []);
-    const likeService = useMemo(() => new LikeService(new HttpClient('likes')), []);
+export const ApplicationContextProvider = ({activeUser, setPosts, posts, children}: {activeUser: IUser, setPosts: (posts: IPost[]) => void, posts: IPost[], children: React.ReactNode}) => {
+  const {postService, userService, likeService} = useContext(ServiceContext);
 
-      return (
-        <ApplicationContext.Provider value={{ postService, userService, likeService }}>
-          {children}
-        </ApplicationContext.Provider>
-      );
-};
+  const createPost = async (newPost: PartialPost) => {
+    newPost.date = (new Date()).toISOString();
+    newPost.userId = activeUser?.id;
+    await postService.add(newPost);
+    setPosts([newPost as IPost, ...posts]);
+  };
+
+  const deletePost = async (postId: number) => {
+    await postService.deleteById(postId);
+    const indexToRemove = posts.findIndex(post => post.id === postId);
+
+    if (indexToRemove !== -1) {
+      posts.splice(indexToRemove, 1);
+      setPosts([...posts]);
+    }
+  }
+
+  const editPost = async (updatedPost: PartialPost) => {
+    await postService.edit(updatedPost);
+    const postToUpdate = posts.find(post => post.id === updatedPost.id);
+    if (postToUpdate !== undefined) {
+      Object.assign(postToUpdate, updatedPost);
+      setPosts([...posts]);
+    }
+  }
+
+  const likePost = async (user: IUser, post: IPost) => {
+    await likeService.add({id: getRandomInt(5000, 6000), userId: user.id, postId: post.id});
+  }
+
+  return (
+    <ApplicationContext.Provider value={{
+      createPost,
+      deletePost,
+      editPost,
+      likePost
+    }}>
+        {children}
+    </ApplicationContext.Provider>
+  );
+}
