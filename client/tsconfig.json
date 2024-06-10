@@ -23,7 +23,7 @@
     "paths": {
       "@interfaces/*": ["./src/interfaces/*"],
       "@services/*": ["./src/services/*"],
-      "@contexts/*": ["./src/contexts/*"],
+      "@appContexts/*": ["./src/contexts/*"],
       "@utils": ["./src/utils.ts"],
     }
 

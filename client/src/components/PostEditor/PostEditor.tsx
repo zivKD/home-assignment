@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button } from "@mui/material";
 import "./styles.css";
 import { IPost, PartialPost } from "@interfaces/post.interface";
-import { ApplicationContext } from "@contexts/application.context";
+import { ApplicationContext } from "@appContexts/application.context";
 import { IUser } from "@interfaces/user.interface";
 
 type PostEditorProps = {

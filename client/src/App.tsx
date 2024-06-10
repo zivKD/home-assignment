@@ -1,5 +1,5 @@
-import { ApplicationContextProvider } from "@contexts/application.context";
-import { ServiceContext } from "@contexts/service.context";
+import { ApplicationContextProvider } from "@appContexts/application.context";
+import { ServiceContext } from "@appContexts/service.context";
 import { IPost } from "@interfaces/post.interface";
 import { IUser } from "@interfaces/user.interface";
 import { getRandomUser } from "@utils";

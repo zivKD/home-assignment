@@ -7,7 +7,7 @@ import { PostEditor } from "../PostEditor";
 import { IPost } from "@interfaces/post.interface";
 import { IUser } from "@interfaces/user.interface";
 import "./styles.css";
-import { ApplicationContext } from "@contexts/application.context";
+import { ApplicationContext } from "@appContexts/application.context";
 
 type PostInstance = {
   modifiable?: boolean,
