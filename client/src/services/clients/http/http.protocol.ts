@@ -13,14 +13,14 @@ export class ApiError {
 }
 
 export class HttpProtocol {
-  protected urlBase = '/api';
+  protected urlBase;
 
   /**
    * Creates a new service instance.
    * @param path A base path for all requests this service will make. Defaults to `/api`.
    */
-  public constructor (path?: string) {
-    this.urlBase = path ?? '/api';
+  public constructor (path: string) {
+    this.urlBase = path;
   }
   /**
    * Returns a new instance of the base config for all requests this service makes.
@@ -29,7 +29,9 @@ export class HttpProtocol {
   protected getConfig (): AxiosRequestConfig {
     return {
       headers: {
-        // Put headers required with every request here
+        "accept": "application/json",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "Referrer-Policy": "strict-origin-when-cross-origin"
       },
     };
   }

@@ -1,4 +1,3 @@
-import { err, ok, Result } from 'neverthrow';
 import { IBaseClient } from './clients/base.client';
 
 export class BaseService<T> {
@@ -18,10 +17,10 @@ export class BaseService<T> {
     }
 
     deleteById(id: number): Promise<void> {
-        return this.deleteById(id);
+        return this.client.deleteById(id);
     }
 
     edit(datum: { id: number; } & Partial<T>): Promise<void> {
-        return this.edit(datum);
+        return this.client.edit(datum);
     }
 }

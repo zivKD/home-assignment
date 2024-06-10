@@ -19,8 +19,8 @@ export const Dialog: React.FC<DailogProps> = ({ onConfirm, isOpened, close, text
         Do you want to { text }
       </DialogTitle>
       <DialogActions>
-        <Button onClick={confirm}>Yes</Button>
         <Button onClick={close}>No</Button>
+        <Button onClick={confirm}>Yes</Button>
       </DialogActions>
     </MUIDialog>
   );

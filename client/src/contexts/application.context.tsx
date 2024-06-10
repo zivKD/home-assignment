@@ -16,7 +16,7 @@ export const ApplicationContextProvider = ({activeUser, setPosts, posts, childre
   const {postService, userService, likeService} = useContext(ServiceContext);
 
   const createPost = async (newPost: PartialPost) => {
-    newPost.date = (new Date()).toISOString();
+    newPost.date = (new Date(Date.now())).toISOString();
     newPost.userId = activeUser?.id;
     await postService.add(newPost);
     setPosts([newPost as IPost, ...posts]);

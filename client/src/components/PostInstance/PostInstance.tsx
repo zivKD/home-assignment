@@ -54,7 +54,7 @@ export const PostInstance: React.FC<PostInstance> = ({ user, post, modifiable: c
         </CardActions>
       </Card>
 
-      <Dialog text={"Deleting Post"} close={closeConfirmation} isOpened={isConfirmataionOpen} onConfirm={() => deletePost(post.id)} />
+      <Dialog text={"Delete Post"} close={closeConfirmation} isOpened={isConfirmataionOpen} onConfirm={() => deletePost(post.id)} />
       <PostEditor isOpened={isPostEditorOpen} close={closeEditor} post={post} user={user}/>
     </>
   );

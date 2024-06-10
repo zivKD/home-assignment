@@ -4,8 +4,8 @@ import { HttpProtocol } from "./http.protocol";
 export class HttpClient implements IBaseClient {
     protected readonly http: HttpProtocol;
 
-    constructor(private readonly path: string) {
-        this.http = new HttpProtocol();
+    constructor(private readonly basePath: string, private readonly path: string) {
+        this.http = new HttpProtocol(basePath);
     }
 
     getAll<T>(): Promise<T[]> {

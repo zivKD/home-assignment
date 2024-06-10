@@ -3,8 +3,8 @@ import { User } from '@interfaces/user.interface';
 import { UserService } from './user.service';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('Users')
-@ApiTags('Users')
+@Controller('users')
+@ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

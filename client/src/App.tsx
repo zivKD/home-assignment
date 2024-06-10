@@ -42,7 +42,7 @@ function App() {
     <ApplicationContextProvider activeUser={currentUser} setPosts={setPosts} posts={posts}>
       <Header activeUser={currentUser} changeUser={changeUser} openPostEditor={openEditor} />
       <div className="posts-container">
-        {posts.map(post => {
+        {posts.sort((postA, postB) => new Date(postA.date) > new Date(postB.date) ? -1 : 1).map(post => {
           const postsUser = usersById[post.userId];
 
           return (
@@ -56,7 +56,7 @@ function App() {
           );
         })}
       </div>
-      <PostEditor isOpened={isPostEditorOpen} close={closeEditor} user={currentUser}/>
+      <PostEditor isOpened={isPostEditorOpen} close={closeEditor} user={currentUser} />
     </ApplicationContextProvider>
   );
 }

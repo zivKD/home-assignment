@@ -4,6 +4,7 @@ import "./styles.css";
 import { IPost, PartialPost } from "@interfaces/post.interface";
 import { ApplicationContext } from "@appContexts/application.context";
 import { IUser } from "@interfaces/user.interface";
+import { getRandomInt } from "@utils";
 
 type PostEditorProps = {
   isOpened: boolean,
@@ -13,19 +14,19 @@ type PostEditorProps = {
 };
 
 export const PostEditor: React.FC<PostEditorProps> = ({ close, isOpened, post, user }) => {
-  if(!post) return;
+  if(isOpened === false) return <></>;
 
-  const [content, setContent] = useState<string>(post.content || "");
-  const [imageUrl, setImageUrl] = useState<string>(post.imageUrl || "");
+  const [content, setContent] = useState<string>(post?.content || "");
+  const [imageUrl, setImageUrl] = useState<string>(post?.imageUrl || "");
   const { createPost } = useContext(ApplicationContext);
 
   const reset = () => {
-    setContent(post.content);
-    setImageUrl(post.imageUrl || "");
+    setContent(post?.content || "");
+    setImageUrl(post?.imageUrl || "");
   };
 
   const onSubmit = async () => {
-    await createPost({ date: (new Date()).toISOString(), likeCounter: 0, userId: user.id, content, imageUrl, id: post?.id });
+    await createPost({ date: (new Date()).toISOString(), likeCounter: 0, userId: user.id, content, imageUrl, id: post?.id ?? getRandomInt(1000, 2000) });
     close();
     reset();
   };

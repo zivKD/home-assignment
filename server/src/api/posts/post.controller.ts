@@ -3,8 +3,8 @@ import { Controller, Get, Param, Delete, Post as PostMethod, Patch, Body, UsePip
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PostService } from './post.service';
 
-@Controller('Posts')
-@ApiTags('Posts')
+@Controller('posts')
+@ApiTags('posts')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
@@ -27,12 +27,12 @@ export class PostController {
   }
 
   @PostMethod('/add')
-  add(@Body() body: {post: Post}): Promise<void> {
-    return this.postService.add(body.post);
+  add(@Body() body: {data: Post}): Promise<void> {
+    return this.postService.add(body.data);
   }
 
   @Patch('/edit')
-  edit(@Body() body: {post: Post}): Promise<void> {
-    return this.postService.edit(body.post);
+  edit(@Body() body: {data: Post}): Promise<void> {
+    return this.postService.edit(body.data);
   }
 }

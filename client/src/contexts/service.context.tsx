@@ -4,6 +4,7 @@ import { LikeService } from "@services/like.service";
 import { PostService } from "@services/post.service";
 import { UserService } from "@services/user.service";
 import { createContext, useMemo } from "react";
+import { config } from "../config/config.dev";
 
 export const ServiceContext = createContext({
     postService: {} as PostService, 
@@ -12,9 +13,9 @@ export const ServiceContext = createContext({
 });
 
 export const ServiceContextProvider = ({children}: {children: React.ReactNode}) => {
-    const postService = useMemo(() => new PostService(new HttpClient('posts')), []);
-    const userService = useMemo(() => new UserService(new HttpClient('users')), []);
-    const likeService = useMemo(() => new LikeService(new HttpClient('likes')), []);
+    const postService = useMemo(() => new PostService(new HttpClient(config.postServiceURL, 'posts')), []);
+    const userService = useMemo(() => new UserService(new HttpClient(config.userServiceURL, 'users')), []);
+    const likeService = useMemo(() => new LikeService(new HttpClient(config.likeServiceURL, 'likes')), []);
 
       return (
         <ServiceContext.Provider value={{ postService, userService, likeService }}>
