@@ -1,7 +1,7 @@
 import { BaseDB } from "@dbclients/base.db";
 
 export class BaseCollection<T> {
-    constructor(protected readonly baseDB: BaseDB, private readonly collectionName: string){}
+    constructor(protected readonly baseDB: BaseDB, protected readonly collectionName: string){}
 
     public async getAll() {
         return this.baseDB.getAll<T>(this.collectionName);

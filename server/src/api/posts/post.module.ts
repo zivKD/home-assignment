@@ -1,19 +1,11 @@
 import { Module } from '@nestjs/common';
-import { FileDB } from '@dbclients/file.db';
-import { UserCollection } from '@collections/user.collection';
-import { BaseDB } from '@dbclients/base.db';
-import { PostCollection } from '@collections/post.collection';
-import { PostService } from './post.service';
+import { DBModule } from 'src/db/db.module';
 import { PostController } from './post.controller';
+import { PostService } from './post.service';
 
 @Module({
-  imports: [],
+  imports: [DBModule],
   controllers: [PostController],
-  providers: [
-    {
-      provide: BaseDB,
-      useClass: FileDB
-    },
-    PostCollection, PostService],
+  providers: [PostService],
 })
 export class PostModule { }

@@ -21,19 +21,19 @@ export class UserController {
   }
 
   @Delete('/id/:id')
-  deleteUserById(@Param('id') id: string): Promise<void> {
+  deleteUserById(@Param('id') id: string): Promise<boolean> {
     return this.userService.deleteById(id);
   }
 
   @Post('/add')
   @ApiOkResponse({type: User})
-  add(@Body() body: User): Promise<void> {
+  add(@Body() body: User): Promise<boolean> {
     return this.userService.add(body);
   }
 
   @Patch('/edit')
   @ApiOkResponse({type: User})
-  edit(@Body() body: {user: User}): Promise<void> {
+  edit(@Body() body: {user: User}): Promise<boolean> {
     return this.userService.edit(body.user);
   }
 }

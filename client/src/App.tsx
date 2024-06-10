@@ -49,6 +49,7 @@ function App() {
             postsUser &&
             <PostInstance
               key={post.id}
+              currentUser={currentUser}
               user={postsUser}
               post={post}
               modifiable={currentUser?.id === postsUser.id}

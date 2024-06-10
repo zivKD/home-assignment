@@ -24,6 +24,6 @@ export class PostService {
   }
 
   async edit(post: Post) {
-    return this.edit(post);
+    return this.postCollection.edit(post);
   }
 }

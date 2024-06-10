@@ -13,9 +13,10 @@ type PostInstance = {
   modifiable?: boolean,
   post: IPost,
   user: IUser,
+  currentUser: IUser,
 };
 
-export const PostInstance: React.FC<PostInstance> = ({ user, post, modifiable: canModify = false }) => {
+export const PostInstance: React.FC<PostInstance> = ({ user, post, currentUser, modifiable: canModify = false }) => {
   const [isConfirmataionOpen, setIsConfirmataionOpen] = useState(false);
   const [isPostEditorOpen, setIsPostEditorOpen] = useState(false);
   const { likePost, deletePost } = useContext(ApplicationContext);
@@ -46,7 +47,7 @@ export const PostInstance: React.FC<PostInstance> = ({ user, post, modifiable: c
               </IconButton>
             </>
           }
-          <IconButton sx={{ marginLeft: "auto" }} onClick={() => likePost(user, post)}>
+          <IconButton sx={{ marginLeft: "auto" }} onClick={() => likePost(currentUser, post)}>
             <Badge badgeContent={post.likeCounter} color="primary" className="post-like-icon-badge">
               <ThumbUpAlt color="primary" />
             </Badge>

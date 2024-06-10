@@ -18,7 +18,7 @@ export const PostEditor: React.FC<PostEditorProps> = ({ close, isOpened, post, u
 
   const [content, setContent] = useState<string>(post?.content || "");
   const [imageUrl, setImageUrl] = useState<string>(post?.imageUrl || "");
-  const { createPost } = useContext(ApplicationContext);
+  const { createPost, editPost } = useContext(ApplicationContext);
 
   const reset = () => {
     setContent(post?.content || "");
@@ -26,7 +26,10 @@ export const PostEditor: React.FC<PostEditorProps> = ({ close, isOpened, post, u
   };
 
   const onSubmit = async () => {
-    await createPost({ date: (new Date()).toISOString(), likeCounter: 0, userId: user.id, content, imageUrl, id: post?.id ?? getRandomInt(1000, 2000) });
+    const defaultPost: IPost = { date: (new Date()).toISOString(), likeCounter: 0, userId: user.id, content, imageUrl, id: post?.id ?? getRandomInt(1000, 2000) }; 
+    if(post) {
+      await editPost({...post, content, imageUrl})
+    } else { await createPost(defaultPost); }
     close();
     reset();
   };

@@ -22,17 +22,20 @@ export class PostController {
   }
 
   @Delete('/id/:id')
-  deleteUserById(@Param('id') id: string): Promise<void> {
+  @ApiOkResponse({type: Boolean})
+  deleteUserById(@Param('id') id: string): Promise<boolean> {
     return this.postService.deleteById(id);
   }
 
   @PostMethod('/add')
-  add(@Body() body: {data: Post}): Promise<void> {
+  @ApiOkResponse({type: Boolean})
+  add(@Body() body: {data: Post}): Promise<boolean> {
     return this.postService.add(body.data);
   }
 
   @Patch('/edit')
-  edit(@Body() body: {data: Post}): Promise<void> {
+  @ApiOkResponse({type: Boolean})
+  edit(@Body() body: {data: Post}): Promise<boolean> {
     return this.postService.edit(body.data);
   }
 }

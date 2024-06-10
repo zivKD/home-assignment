@@ -8,7 +8,7 @@ export interface IPost {
     date: string;
     content: string;
     imageUrl?: string;
-    likeCounter: number;
+    likeCounter?: number;
 }
 
 export class Post implements IPost {
@@ -23,9 +23,9 @@ export class Post implements IPost {
     content: string;
     @ApiProperty({type: URL, required: false})
     imageUrl?: string;
-    @Transform(({value}) => parseInt(value))
+    // @Transform(({value}) => parseInt(value))
     @IsNumber()
     @IsOptional()
     @ApiProperty({type: Number})
-    likeCounter: number = 0;
+    likeCounter?: number;
 }

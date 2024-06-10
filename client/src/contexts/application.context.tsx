@@ -32,17 +32,28 @@ export const ApplicationContextProvider = ({activeUser, setPosts, posts, childre
     }
   }
 
-  const editPost = async (updatedPost: PartialPost) => {
-    await postService.edit(updatedPost);
-    const postToUpdate = posts.find(post => post.id === updatedPost.id);
+  const updateStatePost = async(updatePost: PartialPost) => {
+    const postToUpdate = posts.find(post => updatePost.id === post.id);
     if (postToUpdate !== undefined) {
-      Object.assign(postToUpdate, updatedPost);
+      Object.assign(postToUpdate, updatePost);
       setPosts([...posts]);
     }
   }
 
+  const editPost = async (updatedPost: PartialPost) => {
+    await postService.edit(updatedPost);
+    updateStatePost(updatedPost);
+  }
+
   const likePost = async (user: IUser, post: IPost) => {
-    await likeService.add({id: getRandomInt(5000, 6000), userId: user.id, postId: post.id});
+    const newLike: ILike = {id: getRandomInt(5000, 6000), userId: user.id, postId: post.id};
+    const hasSucceeded = await likeService.add(newLike);
+    if(!hasSucceeded) return;
+    if(post.likeCounter === undefined) {
+      post.likeCounter = 1;
+    } else post.likeCounter += 1;
+    updateStatePost(post);
+
   }
 
   return (

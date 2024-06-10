@@ -12,15 +12,15 @@ export class BaseService<T> {
         return this.client.getByID(id);
     }
 
-    add(datum: { id: number; } & Partial<T>): Promise<void> {
+    add(datum: { id: number; } & Partial<T>): Promise<boolean> {
         return this.client.add(datum);
     }
 
-    deleteById(id: number): Promise<void> {
+    deleteById(id: number): Promise<boolean> {
         return this.client.deleteById(id);
     }
 
-    edit(datum: { id: number; } & Partial<T>): Promise<void> {
+    edit(datum: { id: number; } & Partial<T>): Promise<boolean> {
         return this.client.edit(datum);
     }
 }
