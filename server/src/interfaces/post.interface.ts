@@ -2,7 +2,16 @@ import { ApiProperty,  } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsNumber, IsOptional } from 'class-validator';
 
-export class Post {
+export interface IPost {
+    id: number;
+    userId: number;
+    date: Date;
+    content: string;
+    imageUrl?: URL;
+    likeCounter: number;
+}
+
+export class Post implements IPost {
     @IsNumber()
     @ApiProperty({type: Number})
     id: number;

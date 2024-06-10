@@ -1,7 +1,13 @@
 import { ApiProperty,  } from '@nestjs/swagger';
 import { IsNumber } from 'class-validator';
 
-export class User {
+export interface IUser {
+    id: number;
+    name: string;
+    avatar: URL;
+}
+
+export class User implements IUser {
     @ApiProperty({type: Number})
     @IsNumber()
     id: number;

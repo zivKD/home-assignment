@@ -1,6 +1,12 @@
 import { ApiProperty,  } from '@nestjs/swagger';
 
-export class Like {
+export interface ILike {
+    userId: number;
+    postId: number;
+    id: number;
+}
+
+export class Like implements ILike {
     @ApiProperty({type: Number})
     userId: number;
     @ApiProperty({type: Number})
