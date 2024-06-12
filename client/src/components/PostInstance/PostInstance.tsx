@@ -35,9 +35,9 @@ export const PostInstance: React.FC<PostInstance> = ({ user, post, currentUser, 
 
   return (
     <>
-      <Card className="post-item-container" sx={{ boxShadow: "none" }}>
+      <Card className="post-instance-wrapper" sx={{ boxShadow: "none" }}>
         <CardHeader avatar={<UserAvatar user={user} />} title={user.name} subheader={post.date} />
-        <CardMedia className="post-image" component="img" src={post.imageUrl} />
+        <CardMedia sx={{"max-height": "200px"}} component="img" src={post.imageUrl} />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             {post.content}
@@ -56,7 +56,7 @@ export const PostInstance: React.FC<PostInstance> = ({ user, post, currentUser, 
           }
           <Tooltip title={likeList} onOpen={loadUsersWhoLiked} disableTouchListener>
             <IconButton sx={{ marginLeft: "auto" }} onClick={() => likePost(currentUser, post)}>
-              <Badge badgeContent={post.likeCounter} color="primary" className="post-like-icon-badge">
+              <Badge badgeContent={post.likeCounter} color="primary" sx={{padding: "5px"}} >
                 <ThumbUpAlt color="primary" />
               </Badge>
             </IconButton>

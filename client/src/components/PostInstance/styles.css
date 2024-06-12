@@ -1,14 +1,5 @@
-.post-item-container {
+.post-instance-wrapper {
   max-width: 600px;
   border: 1px solid lightgrey;
   margin: 5px auto;
-}
-
-.post-image {
-  /* This looks a bit weird but very close to the image in the example */
-  max-height: 200px;
-}
-
-.post-like-icon-badge {
-  padding: 5px;
 }
