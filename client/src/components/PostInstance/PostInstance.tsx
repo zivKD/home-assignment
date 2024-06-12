@@ -1,13 +1,13 @@
-import { useContext, useState } from "react";
-import { Card, CardHeader, CardMedia, CardContent, Typography, CardActions, IconButton, Badge } from "@mui/material";
-import { Edit, Delete, ThumbUpAlt } from "@mui/icons-material";
-import { UserAvatar } from "../UserAvatar";
-import { Dialog } from "../Dialog";
-import { PostEditor } from "../PostEditor";
+import { ApplicationContext } from "@appContexts/application.context";
 import { IPost } from "@interfaces/post.interface";
 import { IUser } from "@interfaces/user.interface";
+import { Delete, Edit, ThumbUpAlt } from "@mui/icons-material";
+import { Badge, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Tooltip, Typography } from "@mui/material";
+import { useContext, useState } from "react";
+import { Dialog } from "../Dialog";
+import { PostEditor } from "../PostEditor";
+import { UserAvatar } from "../UserAvatar";
 import "./styles.css";
-import { ApplicationContext } from "@appContexts/application.context";
 
 type PostInstance = {
   modifiable?: boolean,
@@ -17,14 +17,21 @@ type PostInstance = {
 };
 
 export const PostInstance: React.FC<PostInstance> = ({ user, post, currentUser, modifiable: canModify = false }) => {
-  const [isConfirmataionOpen, setIsConfirmataionOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isPostEditorOpen, setIsPostEditorOpen] = useState(false);
-  const { likePost, deletePost } = useContext(ApplicationContext);
+  const { likePost, deletePost, usersWhoLiked } = useContext(ApplicationContext);
+  const [likeList, setLikeList] = useState('loading...');
+
+  const loadUsersWhoLiked = async () => {
+    const users = await usersWhoLiked(post);
+    const usersList = users.map(user => user.name).join(', ');
+    setLikeList(usersList);
+  }
 
   const openEditor = () => setIsPostEditorOpen(true);
   const closeEditor = () => setIsPostEditorOpen(false);
-  const openConfirmation = () => setIsConfirmataionOpen(true);
-  const closeConfirmation = () => setIsConfirmataionOpen(false);
+  const openDialog = () => setIsDialogOpen(true);
+  const closeDialog = () => setIsDialogOpen(false);
 
   return (
     <>
@@ -42,20 +49,22 @@ export const PostInstance: React.FC<PostInstance> = ({ user, post, currentUser, 
               <IconButton onClick={openEditor}>
                 <Edit />
               </IconButton>
-              <IconButton onClick={openConfirmation}>
+              <IconButton onClick={openDialog}>
                 <Delete />
               </IconButton>
             </>
           }
-          <IconButton sx={{ marginLeft: "auto" }} onClick={() => likePost(currentUser, post)}>
-            <Badge badgeContent={post.likeCounter} color="primary" className="post-like-icon-badge">
-              <ThumbUpAlt color="primary" />
-            </Badge>
-          </IconButton>
+          <Tooltip title={likeList} onOpen={loadUsersWhoLiked} disableTouchListener>
+            <IconButton sx={{ marginLeft: "auto" }} onClick={() => likePost(currentUser, post)}>
+              <Badge badgeContent={post.likeCounter} color="primary" className="post-like-icon-badge">
+                <ThumbUpAlt color="primary" />
+              </Badge>
+            </IconButton>
+          </Tooltip>
         </CardActions>
       </Card>
 
-      <Dialog text={"Delete Post"} close={closeConfirmation} isOpened={isConfirmataionOpen} onConfirm={() => deletePost(post.id)} />
+      <Dialog text={"Delete Post"} close={closeDialog} isOpened={isDialogOpen} onConfirm={() => deletePost(post.id)} />
       <PostEditor isOpened={isPostEditorOpen} close={closeEditor} post={post} user={user}/>
     </>
   );

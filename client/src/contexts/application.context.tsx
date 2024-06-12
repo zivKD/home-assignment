@@ -6,14 +6,15 @@ import { ServiceContext } from "./service.context";
 import { getRandomInt } from "@utils";
 
 export const ApplicationContext = createContext({
-    editPost: async (post: PartialPost): Promise<void>  => {},
-    createPost: async (post: IPost): Promise<void>  => {},
-    deletePost: async (id: number): Promise<void>  => {},
-    likePost: async (user: IUser, post: IPost): Promise<void> => {}
+  editPost: async (post: PartialPost): Promise<void> => { },
+  createPost: async (post: IPost): Promise<void> => { },
+  deletePost: async (id: number): Promise<void> => { },
+  likePost: async (user: IUser, post: IPost): Promise<void> => { },
+  usersWhoLiked: async(post: IPost): Promise<IUser[]> => []
 });
 
-export const ApplicationContextProvider = ({activeUser, setPosts, posts, children}: {activeUser: IUser, setPosts: (posts: IPost[]) => void, posts: IPost[], children: React.ReactNode}) => {
-  const {postService, userService, likeService} = useContext(ServiceContext);
+export const ApplicationContextProvider = ({ activeUser, setPosts, posts, users, children }: { activeUser: IUser, users: IUser[], setPosts: (posts: IPost[]) => void, posts: IPost[], children: React.ReactNode }) => {
+  const { postService, userService, likeService } = useContext(ServiceContext);
 
   const createPost = async (newPost: PartialPost) => {
     newPost.date = (new Date(Date.now())).toISOString();
@@ -23,16 +24,18 @@ export const ApplicationContextProvider = ({activeUser, setPosts, posts, childre
   };
 
   const deletePost = async (postId: number) => {
-    await postService.deleteById(postId);
-    const indexToRemove = posts.findIndex(post => post.id === postId);
+    const response = await postService.deleteById(postId);
+    if (response) {
+      const indexToRemove = posts.findIndex(post => post.id === postId);
 
-    if (indexToRemove !== -1) {
-      posts.splice(indexToRemove, 1);
-      setPosts([...posts]);
+      if (indexToRemove !== -1) {
+        posts.splice(indexToRemove, 1);
+        setPosts([...posts]);
+      }
     }
   }
 
-  const updateStatePost = async(updatePost: PartialPost) => {
+  const updateStatePost = async (updatePost: PartialPost) => {
     const postToUpdate = posts.find(post => updatePost.id === post.id);
     if (postToUpdate !== undefined) {
       Object.assign(postToUpdate, updatePost);
@@ -46,14 +49,22 @@ export const ApplicationContextProvider = ({activeUser, setPosts, posts, childre
   }
 
   const likePost = async (user: IUser, post: IPost) => {
-    const newLike: ILike = {id: getRandomInt(5000, 6000), userId: user.id, postId: post.id};
-    const hasSucceeded = await likeService.add(newLike);
-    if(!hasSucceeded) return;
-    if(post.likeCounter === undefined) {
+    const newLike: ILike = { id: getRandomInt(5000, 6000), userId: user.id, postId: post.id };
+    const shouldAddLike = await likeService.add(newLike);
+    if (!shouldAddLike) {
+      post.likeCounter -= 1;
+    };
+    if (post.likeCounter === undefined) {
       post.likeCounter = 1;
     } else post.likeCounter += 1;
     updateStatePost(post);
 
+  }
+
+  const usersWhoLiked = async(post: IPost) => {
+    const likes = await likeService.getByPostId(post.id);
+    const userIdList = likes.map(like => like.userId);
+    return users.filter(user => userIdList.includes(user.id))
   }
 
   return (
@@ -61,9 +72,10 @@ export const ApplicationContextProvider = ({activeUser, setPosts, posts, childre
       createPost,
       deletePost,
       editPost,
-      likePost
+      likePost,
+      usersWhoLiked
     }}>
-        {children}
+      {children}
     </ApplicationContext.Provider>
   );
 }

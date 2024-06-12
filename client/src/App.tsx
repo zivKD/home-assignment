@@ -39,7 +39,7 @@ function App() {
 
 
   return currentUser && (
-    <ApplicationContextProvider activeUser={currentUser} setPosts={setPosts} posts={posts}>
+    <ApplicationContextProvider activeUser={currentUser} users={users} setPosts={setPosts} posts={posts}>
       <Header activeUser={currentUser} changeUser={changeUser} openPostEditor={openEditor} />
       <div className="posts-container">
         {posts.sort((postA, postB) => new Date(postA.date) > new Date(postB.date) ? -1 : 1).map(post => {

@@ -27,4 +27,8 @@ export class HttpClient implements IBaseClient {
     edit<T>(datum: { id: number; } & Partial<T>): Promise<boolean> {
         return this.http.patch(`${this.path}/edit`, {data: datum});
     }
+
+    getByProperty<T>(propertyName: string, propertyValue: unknown): Promise<T> {
+        return this.http.get(`${this.path}/${propertyName}/${propertyValue}`);
+    }
 }

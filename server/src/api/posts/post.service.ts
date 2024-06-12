@@ -12,7 +12,7 @@ export class PostService {
   }
 
   async getById(id: string): Promise<Post> {
-    return this.postCollection.getById(id);
+    return this.postCollection.getById(parseInt(id));
   }
 
   async add(post: Post) {
@@ -20,7 +20,7 @@ export class PostService {
   }
 
   async deleteById(id: string) {
-    return this.postCollection.deleteById(id);
+    return this.postCollection.deleteById(parseInt(id));
   }
 
   async edit(post: Post) {

@@ -1,7 +1,7 @@
 import { IBaseClient } from './clients/base.client';
 
 export class BaseService<T> {
-    constructor(private readonly client: IBaseClient){
+    constructor(protected readonly client: IBaseClient){
     }
 
     getAll(): Promise<T[]> {

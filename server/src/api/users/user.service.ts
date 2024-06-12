@@ -11,7 +11,7 @@ export class UserService {
   }
 
   async getById(id: string): Promise<User> {
-    return this.userCollection.getById(id);
+    return this.userCollection.getById(parseInt(id));
   }
 
   async add(user: User) {
@@ -19,7 +19,7 @@ export class UserService {
   }
 
   async deleteById(id: string) {
-    return this.userCollection.deleteById(id);
+    return this.userCollection.deleteById(parseInt(id));
   }
 
   async edit(user: User) {

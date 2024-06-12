@@ -12,7 +12,7 @@ export class LikeService {
   }
 
   async getById(id: string): Promise<Like> {
-    return this.likeCollection.getById(id);
+    return this.likeCollection.getById(parseInt(id));
   }
 
   async getByPostId(postId: string): Promise<Like[]> {
@@ -22,12 +22,14 @@ export class LikeService {
 
   async add(like: Like) {
     const existingLikes = await this.likeCollection.getByPostId(like.postId);
-    if(existingLikes.find(existingLike => existingLike.userId === like.userId)) {
+    const userExistingLike = existingLikes.find(existingLike => existingLike.userId === like.userId);
+    if(userExistingLike) {
+      await this.likeCollection.deleteById(userExistingLike.id);
       return false;
     }
     
     await this.likeCollection.add(like);
-    const post = await this.postCollection.getById(like.postId.toString());
+    const post = await this.postCollection.getById(like.postId);
     if(post.likeCounter === undefined) {
       post.likeCounter = 1;
     } else { post.likeCounter = post.likeCounter + 1; }
@@ -35,7 +37,7 @@ export class LikeService {
   }
 
   async deleteById(id: string) {
-    return this.likeCollection.deleteById(id);
+    return this.likeCollection.deleteById(parseInt(id));
   }
 
   async edit(like: Like) {
