@@ -16,12 +16,12 @@ export class UserController {
 
   @Get('/id/:id')
   @ApiOkResponse({type: User})
-  getUserById(@Param('id') id: string): Promise<User> {
+  getUserById(@Param('id') id: number): Promise<User> {
     return this.userService.getById(id);
   }
 
   @Delete('/id/:id')
-  deleteUserById(@Param('id') id: string): Promise<boolean> {
+  deleteUserById(@Param('id') id: number): Promise<boolean> {
     return this.userService.deleteById(id);
   }
 

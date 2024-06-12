@@ -11,16 +11,16 @@ export class PostService {
     return this.postCollection.getAll();
   }
 
-  async getById(id: string): Promise<Post> {
-    return this.postCollection.getById(parseInt(id));
+  async getById(id: number): Promise<Post> {
+    return this.postCollection.getById(id);
   }
 
   async add(post: Post) {
     return this.postCollection.add(post);
   }
 
-  async deleteById(id: string) {
-    return this.postCollection.deleteById(parseInt(id));
+  async deleteById(id: number) {
+    return this.postCollection.deleteById(id);
   }
 
   async edit(post: Post) {

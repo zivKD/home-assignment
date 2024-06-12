@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Delete, Post as PostMethod, Patch, Body, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Param, Delete, Post as PostMethod, Patch, Body, UsePipes } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { LikeService } from './like.service';
 import { Like } from '@interfaces/like.interface';
@@ -9,7 +9,6 @@ export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
   @Get()
-  @UsePipes(new ValidationPipe({transform: true}))
   @ApiOkResponse({type: [Like]})
   getUsers(): Promise<Like[]> {
     return this.likeService.getAll();
@@ -17,13 +16,13 @@ export class LikeController {
 
   @Get('/id/:id')
   @ApiOkResponse({type: Like})
-  getById(@Param('id') id: string): Promise<Like> {
+  getById(@Param('id') id: number): Promise<Like> {
     return this.likeService.getById(id);
   }
 
   @Delete('/id/:id')
   @ApiOkResponse({type: Boolean})
-  deleteById(@Param('id') id: string): Promise<boolean> {
+  deleteById(@Param('id') id: number): Promise<boolean> {
     return this.likeService.deleteById(id);
   }
 
@@ -40,9 +39,8 @@ export class LikeController {
   }  
   
   @Get('/postId/:id')
-  @UsePipes(new ValidationPipe({transform: true}))
   @ApiOkResponse({type: [Like]})
-  getByPostId(@Param('id') postId: string): Promise<Like[]> {
+  getByPostId(@Param('id') postId: number): Promise<Like[]> {
     return this.likeService.getByPostId(postId);
   }
 }

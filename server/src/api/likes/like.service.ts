@@ -11,12 +11,12 @@ export class LikeService {
     return this.likeCollection.getAll();
   }
 
-  async getById(id: string): Promise<Like> {
-    return this.likeCollection.getById(parseInt(id));
+  async getById(id: number): Promise<Like> {
+    return this.likeCollection.getById(id);
   }
 
-  async getByPostId(postId: string): Promise<Like[]> {
-    return this.likeCollection.getByPostId(parseInt(postId));
+  async getByPostId(postId: number): Promise<Like[]> {
+    return this.likeCollection.getByPostId(postId);
   }
 
 
@@ -36,8 +36,8 @@ export class LikeService {
     return await this.postCollection.edit(post);
   }
 
-  async deleteById(id: string) {
-    return this.likeCollection.deleteById(parseInt(id));
+  async deleteById(id: number) {
+    return this.likeCollection.deleteById(id);
   }
 
   async edit(like: Like) {

@@ -10,16 +10,16 @@ export class UserService {
     return this.userCollection.getAll();
   }
 
-  async getById(id: string): Promise<User> {
-    return this.userCollection.getById(parseInt(id));
+  async getById(id: number): Promise<User> {
+    return this.userCollection.getById(id);
   }
 
   async add(user: User) {
     return this.userCollection.add(user);
   }
 
-  async deleteById(id: string) {
-    return this.userCollection.deleteById(parseInt(id));
+  async deleteById(id: number) {
+    return this.userCollection.deleteById(id);
   }
 
   async edit(user: User) {

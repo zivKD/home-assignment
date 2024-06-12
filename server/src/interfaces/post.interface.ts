@@ -1,6 +1,6 @@
 import { ApiProperty,  } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export interface IPost {
     id: number;
@@ -13,19 +13,27 @@ export interface IPost {
 
 export class Post implements IPost {
     @IsNumber()
+    @IsNotEmpty()
     @ApiProperty({type: Number})
     id: number;
     @ApiProperty({type: Number})
+    @IsNumber()
+    @IsNotEmpty()
     userId: number;
     @ApiProperty({type: String})
+    @IsDateString()
+    @IsNotEmpty()
     date: string;
     @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
     content: string;
-    @ApiProperty({type: URL, required: false})
+    @ApiProperty({type: String, required: false})
+    @IsString()
+    @IsOptional()
     imageUrl?: string;
-    // @Transform(({value}) => parseInt(value))
+    @ApiProperty({type: Number})
     @IsNumber()
     @IsOptional()
-    @ApiProperty({type: Number})
     likeCounter?: number;
 }
